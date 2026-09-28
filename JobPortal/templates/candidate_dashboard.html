@@ -1,0 +1,62 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card p-4 shadow">
+        <h3 class="mb-3">📄 My Applications</h3>
+
+        {% if applications %}
+        <table class="table table-bordered text-center">
+
+            <thead class="bg-dark text-white">
+                <tr>
+                    <th>Job</th>
+                    <th>Company</th>
+                    <th>Resume</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for a in applications %}
+                <tr>
+                    <td>{{ a.job.title }}</td>
+                    <td>{{ a.job.company.name }}</td>
+
+                    <td>
+                        <a href="{{ a.resume.url }}" 
+                           target="_blank" 
+                           class="btn btn-sm btn-primary">
+                           View
+                        </a>
+                    </td>
+
+                    <td>
+                        {% if a.status == 'APPLIED' %}
+                            <span class="badge badge-info">Applied</span>
+                        {% elif a.status == 'SHORTLISTED' %}
+                            <span class="badge badge-success">Shortlisted</span>
+                        {% else %}
+                            <span class="badge badge-danger">Rejected</span>
+                        {% endif %}
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+        {% else %}
+            <div class="alert alert-info text-center">
+                You have not applied to any jobs yet.
+            </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,97 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+
+    <!-- Brand -->
+    <a class="navbar-brand font-weight-bold" href="{% url 'landing' %}">
+        JobPortal
+    </a>
+
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" 
+            data-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar Content -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+
+        <!-- Left Side -->
+        <ul class="navbar-nav mr-auto">
+
+            <!-- Home -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'landing' %}">Home</a>
+            </li>
+
+            {% if request.user.is_authenticated and request.user.profile %}
+
+                {% if request.user.profile.role == 'HR' %}
+                    <!-- HR -->
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" href="{% url 'post_job' %}">
+                            ➕ Post Job
+                        </a>
+                    </li>
+
+                {% elif request.user.profile.role == 'JOBSEEKER' %}
+                    <!-- Job Seeker -->
+                    <li class="nav-item">
+                        <a class="nav-link text-info" href="{% url 'home' %}">
+                            🔍 Browse Jobs
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-success" href="{% url 'candidate_dashboard' %}">
+                            📄 My Applications
+                        </a>
+                    </li>
+
+                {% endif %}
+
+            {% endif %}
+
+        </ul>
+
+        <!-- Right Side -->
+        <ul class="navbar-nav ml-auto align-items-center">
+
+            {% if request.user.is_authenticated %}
+
+                <!-- Username -->
+                <li class="nav-item mr-3">
+                    <span class="text-white">
+                        👤 {{ request.user.username }}
+                    </span>
+                </li>
+
+                <!-- Logout -->
+                <li class="nav-item">
+                    <a class="btn btn-outline-light btn-sm" href="{% url 'logout' %}">
+                        Logout
+                    </a>
+                </li>
+
+            {% else %}
+
+                <!-- Login -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">
+                        Login
+                    </a>
+                </li>
+
+                <!-- Register -->
+                <li class="nav-item">
+                    <a class="btn btn-success btn-sm ml-2" href="{% url 'register' %}">
+                        Register
+                    </a>
+                </li>
+
+            {% endif %}
+
+        </ul>
+
+    </div>
+</nav>

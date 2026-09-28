@@ -1,0 +1,99 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .job-card {
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 0 12px rgba(0,0,0,0.08);
+        background: #fff;
+        transition: 0.2s;
+    }
+
+    .job-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+
+    .job-title {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .job-meta {
+        font-size: 14px;
+        color: gray;
+    }
+</style>
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>💼 Available Jobs</h3>
+        <span class="badge badge-dark">
+            Total: {{ jobs|length }}
+        </span>
+    </div>
+
+    {% if jobs %}
+
+        {% for j in jobs %}
+        <div class="job-card">
+
+            <!-- Job Title + Company -->
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="job-title">{{ j.title }}</div>
+                    <div class="text-muted">{{ j.company.name }}</div>
+                </div>
+
+                <div>
+                    <span class="badge badge-success">₹ {{ j.salary }}</span>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <p class="mt-2">
+                {{ j.description|truncatewords:25 }}
+            </p>
+
+            <!-- Meta Info -->
+            <div class="job-meta mb-3">
+                📍 {{ j.company.location }} &nbsp; | &nbsp;
+                🧠 {{ j.experience_required }} yrs experience
+            </div>
+
+            <!-- Apply Button -->
+            {% if user.is_authenticated %}
+
+                {% if j.id in applied_jobs %}
+                    <button class="btn btn-secondary btn-sm" disabled>
+                        ✅ Applied
+                    </button>
+                {% else %}
+                    <a href="{% url 'apply' j.id %}" class="btn btn-primary btn-sm">
+                        Apply Now
+                    </a>
+                {% endif %}
+
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-warning btn-sm">
+                    Login to Apply
+                </a>
+            {% endif %}
+
+        </div>
+        {% endfor %}
+
+    {% else %}
+        <div class="alert alert-info text-center">
+            No jobs available right now.
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

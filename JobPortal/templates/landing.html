@@ -1,0 +1,73 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .hero {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(to right, #141e30, #243b55);
+        color: white;
+        text-align: center;
+    }
+
+    .hero-box {
+        max-width: 700px;
+    }
+
+    .hero h1 {
+        font-size: 55px;
+        font-weight: bold;
+    }
+
+    .hero p {
+        font-size: 20px;
+        margin-top: 20px;
+        color: #ddd;
+    }
+
+    .hero-buttons {
+        margin-top: 35px;
+    }
+
+    .hero-buttons a {
+        margin: 10px;
+        padding: 14px 30px;
+        font-size: 18px;
+        border-radius: 10px;
+    }
+</style>
+
+<div class="hero">
+
+    <div class="hero-box">
+
+        <h1>Find Your Dream Job</h1>
+
+        <p>
+            Connect talented professionals with top companies.
+            Apply for jobs or hire the best candidates easily.
+        </p>
+
+        <div class="hero-buttons">
+
+            <!-- Job Seeker -->
+            <a href="{% url 'home' %}" class="btn btn-info btn-lg">
+                👨‍💻 I'm Looking for a Job
+            </a>
+
+            <!-- HR -->
+            <a href="{% url 'register' %}" class="btn btn-warning btn-lg">
+                🧑‍💼 I Want to Hire
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

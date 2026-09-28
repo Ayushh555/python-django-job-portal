@@ -1,0 +1,47 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<style>
+    .apply-card {
+        max-width: 500px;
+        margin: auto;
+        margin-top: 50px;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        background: #fff;
+    }
+</style>
+
+<div class="container">
+    <div class="apply-card">
+
+        <h3 class="text-center mb-4">Apply for Job</h3>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Mobile -->
+            <div class="form-group">
+                <label>Mobile</label>
+                <input type="text" name="mobile" class="form-control" required>
+            </div>
+
+            <!-- Resume -->
+            <div class="form-group">
+                <label>Upload Resume</label>
+                <input type="file" name="resume" class="form-control" required>
+            </div>
+
+            <br>
+
+            <button type="submit" class="btn btn-success btn-block">
+                Submit Application
+            </button>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .register-card {
+        max-width: 450px;
+        margin: auto;
+        margin-top: 40px;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        background: #fff;
+    }
+
+    .strength-bar {
+        height: 6px;
+        border-radius: 5px;
+        margin-top: 5px;
+    }
+
+    .weak { background: red; width: 33%; }
+    .medium { background: orange; width: 66%; }
+    .strong { background: green; width: 100%; }
+
+    .error-text {
+        color: red;
+        font-size: 13px;
+    }
+</style>
+
+<div class="container">
+    <div class="register-card">
+        <h3 class="text-center mb-4">Create Account</h3>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Username -->
+            <label>Username</label>
+            <input type="text" name="username" class="form-control" required>
+
+            <!-- Password -->
+            <label class="mt-3">Password</label>
+            <div style="position:relative;">
+                <input type="password" name="password1" id="password" class="form-control" required>
+                <span onclick="togglePassword()" 
+                      style="position:absolute; right:10px; top:8px; cursor:pointer;">👁️</span>
+            </div>
+
+            <!-- Strength Bar -->
+            <div id="strengthBar" class="strength-bar"></div>
+
+            <!-- Confirm Password -->
+            <label class="mt-3">Confirm Password</label>
+            <input type="password" name="password2" id="confirmPassword" class="form-control" required>
+            <small id="matchText" class="error-text"></small>
+
+            <!-- Role -->
+            <label class="mt-3"><b>Select Role</b></label>
+            <select name="role" class="form-control" required>
+                <option value="">-- Select Role --</option>
+                <option value="JOBSEEKER">Job Seeker</option>
+                <option value="HR">HR</option>
+            </select>
+
+            <br>
+
+            <button type="submit" class="btn btn-success btn-block">Register</button>
+
+            <p class="mt-3 text-center">
+                Already have an account? 
+                <a href="{% url 'login' %}">Login</a>
+            </p>
+        </form>
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            {{ form.errors }}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    const password = document.getElementById("password");
+    const confirmPassword = document.getElementById("confirmPassword");
+    const strengthBar = document.getElementById("strengthBar");
+    const matchText = document.getElementById("matchText");
+
+    // Password strength
+    password.addEventListener("input", function () {
+        let val = password.value;
+        if (val.length < 4) {
+            strengthBar.className = "strength-bar weak";
+        } else if (val.length < 8) {
+            strengthBar.className = "strength-bar medium";
+        } else {
+            strengthBar.className = "strength-bar strong";
+        }
+    });
+
+    // Match check
+    confirmPassword.addEventListener("input", function () {
+        if (password.value !== confirmPassword.value) {
+            matchText.innerText = "Passwords do not match";
+        } else {
+            matchText.innerText = "";
+        }
+    });
+
+    // Toggle password visibility
+    function togglePassword() {
+        if (password.type === "password") {
+            password.type = "text";
+        } else {
+            password.type = "password";
+        }
+    }
+</script>
+
+{% endblock %}

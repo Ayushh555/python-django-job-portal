@@ -1,0 +1,128 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .dashboard-card {
+        margin-top: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        padding: 20px;
+        background: #fff;
+    }
+
+    .table thead {
+        background-color: #343a40;
+        color: white;
+    }
+
+    .badge {
+        padding: 6px 10px;
+        border-radius: 10px;
+        font-size: 12px;
+    }
+</style>
+
+<div class="container">
+
+    <div class="dashboard-card">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3>📋 Applications Received</h3>
+            <span class="badge badge-dark">
+                Total: {{ applications|length }}
+            </span>
+        </div>
+
+        {% if applications %}
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered text-center">
+
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Job</th>
+                        <th>Company</th>
+                        <th>Resume</th>
+                        <th>Mobile</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for a in applications %}
+                    <tr>
+
+                        <!-- Candidate Name -->
+                        <td>{{ a.user.username }}</td>
+
+                        <!-- Job -->
+                        <td>{{ a.job.title }}</td>
+
+                        <!-- Company -->
+                        <td>{{ a.job.company.name }}</td>
+
+                        <!-- Resume -->
+                        <td>
+                            {% if a.resume %}
+                                <a href="{{ a.resume.url }}" 
+                                   class="btn btn-sm btn-primary" 
+                                   target="_blank">
+                                    View
+                                </a>
+                            {% else %}
+                                <span class="text-muted">Not submitted</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Mobile -->
+                        <td>{{ a.mobile }}</td>
+
+                        <!-- Email -->
+                        <td>{{ a.user.email }}</td>
+
+                        <!-- Status -->
+                        <td>
+                            {% if a.status == 'APPLIED' %}
+                                <span class="badge badge-info">Applied</span>
+                            {% elif a.status == 'SHORTLISTED' %}
+                                <span class="badge badge-success">Shortlisted</span>
+                            {% else %}
+                                <span class="badge badge-danger">Rejected</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Actions -->
+                        <td>
+                            <a href="{% url 'update_status' a.id 'SHORTLISTED' %}" 
+                               class="btn btn-success btn-sm">
+                               ✔
+                            </a>
+
+                            <a href="{% url 'update_status' a.id 'REJECTED' %}" 
+                               class="btn btn-danger btn-sm">
+                               ✖
+                            </a>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+        {% else %}
+            <div class="alert alert-info text-center">
+                No applications received yet.
+            </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
