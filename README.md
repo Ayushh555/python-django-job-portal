@@ -7,8 +7,6 @@ A full-stack **Online Job Portal** built with **Python and Django** that connect
 **Live Website:**
 https://python-django-job-portal.onrender.com
 
-
-
 ---
 
 ## 📌 About the Project
@@ -246,10 +244,5 @@ Some features that can be added in future versions:
 
 ---
 
-## ⭐ Support
-
-If you find this project useful, consider giving the repository a ⭐ on GitHub.
-
----
 
 
